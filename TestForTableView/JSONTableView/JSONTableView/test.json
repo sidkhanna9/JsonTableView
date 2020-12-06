@@ -1,0 +1,22 @@
+{
+    "tableViewId": "Hello World",
+    "sections": [
+        {
+            "sectionName": "FirstSection",
+            "rows": [
+                {
+                    "rowId": "row1"
+                }
+            
+            ]
+        },
+        {
+            "sectionName": "SecondSection",
+            "rows": [
+                {
+                    "rowId": "row1"
+                }
+            ]
+        }
+    ]
+}
