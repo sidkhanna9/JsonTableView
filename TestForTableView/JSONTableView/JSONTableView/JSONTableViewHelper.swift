@@ -43,7 +43,7 @@ extension JSONTableViewHelper: UITableViewDataSource {
             cell?.contentView.subviews.forEach({ $0.removeFromSuperview() })
             if let view = self.recursiveInitializeView(modelForView: row.view) {
                 cell?.contentView.addSubview(view)
-                self.recursizeConstraints(modelForView: row.view, cell?.contentView)
+                self.recursizeConstraints(modelForView: row.view, view)
             }
             return UITableViewCell()
         } else {
@@ -54,13 +54,14 @@ extension JSONTableViewHelper: UITableViewDataSource {
     private func recursizeConstraints(modelForView: ModelForViews?, _ parentView: UIView? = nil) {
         guard let modelForView = modelForView, let tag = modelForView.tag else { return }
         modelForView.constraints?.forEach({ (constraint) in
-            guard let view = parentView?.viewWithTag(tag), let secondTag = constraint.toView,
+            if let view = parentView?.viewWithTag(tag), let secondTag = constraint.toView,
                 let secondView = parentView?.viewWithTag(secondTag), let fromAttribute = constraint.fromDimension,
                 let toAttribute = constraint.toDimension, let relatedBy = constraint.relatedBy,
-                let multiplier = constraint.multiplier, let constant = constraint.constant else { return }
-            view.translatesAutoresizingMaskIntoConstraints = false
-            secondView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: secondView, attribute: NSLayoutConstraint.Attribute(rawValue: toAttribute)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
+                let multiplier = constraint.multiplier, let constant = constraint.constant {
+                NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: secondView, attribute: NSLayoutConstraint.Attribute(rawValue: toAttribute)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
+            } else if let view = parentView?.viewWithTag(tag), let fromAttribute = constraint.fromDimension, let relatedBy = constraint.relatedBy, let multiplier = constraint.multiplier, let constant = constraint.constant {
+                NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: nil, attribute: NSLayoutConstraint.Attribute(rawValue: 0)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
+            }
         })
         modelForView.subViews?.forEach({
             self.recursizeConstraints(modelForView: $0, parentView)
@@ -79,6 +80,7 @@ extension JSONTableViewHelper: UITableViewDataSource {
         if let tag = modelForView.tag {
             view.tag = tag
         }
+        view.translatesAutoresizingMaskIntoConstraints = false
         modelForView.propertyList?.forEach({
             self.setProperty(object: view, name: $0.key, propertyList: $0.value)
         })
