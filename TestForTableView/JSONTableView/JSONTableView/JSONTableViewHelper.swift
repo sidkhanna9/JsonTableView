@@ -148,7 +148,7 @@ extension JSONTableViewHelper: UITableViewDataSource {
         case .string:
             value = values[0]
         }
-        object.setValue(value, forKey: name)
+        object.setValue(value, forKeyPath: name)
     }
 
     func getPriority(string: String) -> UILayoutPriority {
