@@ -9,24 +9,23 @@
 import UIKit
 
 class ModelForViews: Codable {
-    var viewName: String?
+    var tag: Int?
     var viewType: String?
-    var backgroundColor: Color?
+    var propertyList: [String: PropertyList]?
     var subViews: [ModelForViews]?
     var constraints: [Constraint]?
 }
 
-class Constraint: Codable {
-    var toView: String?
-    var constant: Int?
-    var multiplier: Int?
-    var fromDimension: String?
-    var toDimension: String?
+class PropertyList: Codable {
+    var type: String?
+    var value: [String]?
 }
 
-class Color: Codable {
-    var colorR: Float?
-    var colorG: Float?
-    var colorB: Float?
-    var colorA: Float?
+class Constraint: Codable {
+    var toView: Int?
+    var constant: Int?
+    var multiplier: Int?
+    var relatedBy: Int?
+    var fromDimension: Int?
+    var toDimension: Int?
 }
