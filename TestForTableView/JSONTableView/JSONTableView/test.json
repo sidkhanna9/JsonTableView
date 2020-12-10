@@ -5,16 +5,50 @@
             "sectionName": "FirstSection",
             "rows": [
                 {
-                    "rowId": "row1"
-                }
-            
-            ]
-        },
-        {
-            "sectionName": "SecondSection",
-            "rows": [
+                    "rowId": "row1",
+                    "view": {
+                        "viewName": "row1View",
+                        "viewType": "UIView",
+                        "subviews":[],
+                        "constraint":[],
+                        "properties":[
+                            "backgroundColor": {
+                                "type": "UIColor",
+                                "value":["212.0", "123.0", "198.0", "0.6"]
+                            },
+                            "layer.cornerRadius": {
+                                "type": "CGFloat",
+                                "value": "12.0"
+                            },
+                            "layer.borderWidth": {
+                                "type": "CGFloat",
+                                "value": ["10.0"]
+                            }]
+                    }
+                },
                 {
-                    "rowId": "row1"
+                    "rowId": "row2",
+                    "view": {
+                        "viewName": "row2View",
+                        "viewType": "UIView",
+                        "subviews":[
+                            
+                        ],
+                        "constraint":[],
+                        "properties":[
+                            "backgroundColor": {
+                                "type": "UIColor",
+                                "value":["142.0", "147.0", "135.0", "0.5"]
+                            },
+                            "layer.cornerRadius": {
+                                "type": "CGFloat",
+                                "value": "4.0"
+                            },
+                            "layer.borderWidth": {
+                                "type": "CGFloat",
+                                "value": ["20.0"]
+                            }]
+                    }
                 }
             ]
         }
