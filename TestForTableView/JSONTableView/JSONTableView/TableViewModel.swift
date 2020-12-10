@@ -9,7 +9,7 @@
 import UIKit
 
 class TableViewModel: Codable {
-//    var tableViewId: String?
+    var tableViewId: String?
     var sections: [SectionModel]?
 }
 
