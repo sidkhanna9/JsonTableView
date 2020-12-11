@@ -45,10 +45,10 @@ extension JSONTableViewHelper: UITableViewDataSource {
         if let view = self.recursiveInitializeView(modelForView: row.view) {
             cell.contentView.addSubview(view)
             self.recursizeConstraints(modelForView: row.view, cell.contentView)
-            cell.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -16).isActive = true
-            cell.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16).isActive = true
-            cell.contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: -16).isActive = true
-            cell.contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 16).isActive = true
+            cell.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            cell.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            cell.contentView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            cell.contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
         return cell
     }
