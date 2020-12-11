@@ -38,28 +38,32 @@ extension JSONTableViewHelper: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let row = self.jsonTableView?.sections?[indexPath.section].rows?[indexPath.row]  {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "jsonView")
-            cell?.contentView.subviews.forEach({ $0.removeFromSuperview() })
-            if let view = self.recursiveInitializeView(modelForView: row.view) {
-                cell?.contentView.addSubview(view)
-                self.recursizeConstraints(modelForView: row.view, view)
-            }
-            return UITableViewCell()
-        } else {
+        guard let row = self.jsonTableView?.sections?[indexPath.section].rows?[indexPath.row], let cell = tableView.dequeueReusableCell(withIdentifier: "jsonView") else {
             return UITableViewCell()
         }
+        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
+        if let view = self.recursiveInitializeView(modelForView: row.view) {
+            cell.contentView.addSubview(view)
+            self.recursizeConstraints(modelForView: row.view, cell.contentView)
+            cell.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -16).isActive = true
+            cell.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16).isActive = true
+            cell.contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: -16).isActive = true
+            cell.contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 16).isActive = true
+        }
+        return cell
     }
     
-    private func recursizeConstraints(modelForView: ModelForViews?, _ parentView: UIView? = nil) {
+    private func recursizeConstraints(modelForView: ModelForViews?, _ parentView: UIView) {
         guard let modelForView = modelForView, let tag = modelForView.tag else { return }
         modelForView.constraints?.forEach({ (constraint) in
-            if let view = parentView?.viewWithTag(tag), let secondTag = constraint.toView,
-                let secondView = parentView?.viewWithTag(secondTag), let fromAttribute = constraint.fromDimension,
+            if let view = parentView.viewWithTag(tag), let secondTag = constraint.toView,
+                let secondView = parentView.viewWithTag(secondTag), let fromAttribute = constraint.fromDimension,
                 let toAttribute = constraint.toDimension, let relatedBy = constraint.relatedBy,
                 let multiplier = constraint.multiplier, let constant = constraint.constant {
+                // Attribute: 1 - left, 2 - right, 3 - top, 4 - bottom
+                // Relation: -1 = lessThanOrEqual, 0 = equal, 1 = greaterThanOrEqualTo
                 NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: secondView, attribute: NSLayoutConstraint.Attribute(rawValue: toAttribute)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
-            } else if let view = parentView?.viewWithTag(tag), let fromAttribute = constraint.fromDimension, let relatedBy = constraint.relatedBy, let multiplier = constraint.multiplier, let constant = constraint.constant {
+            } else if let view = parentView.viewWithTag(tag), let fromAttribute = constraint.fromDimension, let relatedBy = constraint.relatedBy, let multiplier = constraint.multiplier, let constant = constraint.constant {
                 NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: nil, attribute: NSLayoutConstraint.Attribute(rawValue: 0)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
             }
         })
@@ -127,12 +131,18 @@ extension JSONTableViewHelper: UITableViewDataSource {
         case .imageFromUrl:
             // async UIImage from Url
             URLSession.shared.dataTask(with: URL(string: values[0])!, completionHandler: { data,response,error in
-                guard let data = data, error == nil else { return }
-                // .image = UIImage(data: data)
+                guard let data = data, error == nil, let image = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    object.setValue(image, forKeyPath: name)
+                    if values.count > 1, let contentMode: UIView.ContentMode = UIView.ContentMode.init(rawValue: Int(values[1]) ?? 1) {
+                        object.contentMode = contentMode
+                    }
+                }
             }).resume()
-            return // return
+            return
         case .imageFromAsset:
-            value = UIImage(named: values[0])
+            guard let image = UIImage(named: values[0]) else { return }
+            value = image
         case .contentHorizontalHuggingProperty:
             object.setContentHuggingPriority(getPriority(string: values[0]), for: .horizontal)
             return
