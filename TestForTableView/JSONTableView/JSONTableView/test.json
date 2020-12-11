@@ -7,47 +7,158 @@
                 {
                     "rowId": "row1",
                     "view": {
-                        "viewName": "row1View",
+                        "tag": 1,
                         "viewType": "UIView",
-                        "subviews":[],
-                        "constraint":[],
-                        "properties":[
+                        "subViews":[],
+                        "constraints":[
+                        ],
+                        "propertyList": {
                             "backgroundColor": {
                                 "type": "UIColor",
                                 "value":["212.0", "123.0", "198.0", "0.6"]
                             },
                             "layer.cornerRadius": {
                                 "type": "CGFloat",
-                                "value": "12.0"
+                                "value": ["12.0"]
                             },
                             "layer.borderWidth": {
                                 "type": "CGFloat",
-                                "value": ["10.0"]
-                            }]
+                                "value": ["3.0"]
+                            }
+                        }
                     }
                 },
                 {
                     "rowId": "row2",
                     "view": {
-                        "viewName": "row2View",
+                        "tag": 2,
                         "viewType": "UIView",
-                        "subviews":[
+                        "subViews":[
+                            {
+                                "tag": 3,
+                                "viewType": "UILabel",
+                                "subViews":[
+                                    
+                                ],
+                                "constraints":[
+                                    {
+                                        "toView": 4,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 4,
+                                        "toDimension": 3
+                                    },
+                                    {
+                                        "toView": 2,
+                                        "constant": 16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 1,
+                                        "toDimension": 1
+                                    },
+                                    {
+                                        "toView": 2,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 2,
+                                        "toDimension": 2
+                                    },
+                                    {
+                                        "toView": 2,
+                                        "constant": 16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 3,
+                                        "toDimension": 3
+                                    }
+                                ],
+                                "propertyList": {
+                                    "textColor": {
+                                        "type": "UIColor",
+                                        "value":["255.0", "255.0", "255.0", "1.0"]
+                                    },
+                                    "text": {
+                                        "type": "String",
+                                        "value": ["Hey there!"]
+                                    },
+                                    "backgroundColor": {
+                                        "type": "UIColor",
+                                        "value":["142.0", "147.0", "135.0", "0.5"]
+                                    }
+                                }
+                            },
+                            {
+                                "tag": 4,
+                                "viewType": "UIImageView",
+                                "subViews":[
+                                    
+                                ],
+                                "constraints":[
+                                    {
+                                        "toView": 2,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 4,
+                                        "toDimension": 4
+                                    },
+                                    {
+                                        "toView": 2,
+                                        "constant": 16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 1,
+                                        "toDimension": 1
+                                    },
+                                    {
+                                        "toView": 2,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 2,
+                                        "toDimension": 2
+                                    },
+                                    {
+                                        "constant": 300,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 8
+                                    }
+                                ],
+                                "propertyList": {
+                                    "image": {
+                                        "type": "ImageFromUrl",
+                                        "value":[
+                                            "https://www.static-src.com/reward-catalog/storage/images/2020/12/1606894826_Indomaret.jpg",
+                                            "1"
+                                        ]
+                                    },
+                                    "backgroundColor": {
+                                        "type": "UIColor",
+                                        "value":["142.0", "147.0", "135.0", "0.5"]
+                                    }
+                                }
+                            }
+                        ],
+                        "constraints":[
                             
                         ],
-                        "constraint":[],
-                        "properties":[
+                        "propertyList": {
                             "backgroundColor": {
                                 "type": "UIColor",
-                                "value":["142.0", "147.0", "135.0", "0.5"]
+                                "value":["142.0", "147.0", "135.0", "0.8"]
                             },
                             "layer.cornerRadius": {
                                 "type": "CGFloat",
-                                "value": "4.0"
+                                "value": ["16.0"]
                             },
                             "layer.borderWidth": {
                                 "type": "CGFloat",
-                                "value": ["20.0"]
-                            }]
+                                "value": ["2.0"]
+                            }
+                        }
                     }
                 }
             ]
