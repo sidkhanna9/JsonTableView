@@ -24,7 +24,7 @@ class PropertyList: Codable {
 class Constraint: Codable {
     var toView: Int?
     var constant: Int?
-    var multiplier: Int?
+    var multiplier: Float?
     var relatedBy: Int?
     var fromDimension: Int?
     var toDimension: Int?
