@@ -42,9 +42,10 @@ extension JSONTableViewHelper: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-        if let view = self.recursiveInitializeView(modelForView: row.view) {
+        let rowModelInitializer = self.recursiveInitializeView(modelForView: row.view)
+        if let view = rowModelInitializer.view {
             cell.contentView.addSubview(view)
-            self.recursizeConstraints(modelForView: row.view, cell.contentView)
+            self.recursizeConstraints(modelForView: row.view, rowModelInitializer.dict)
             cell.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
             cell.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
             cell.contentView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -53,27 +54,27 @@ extension JSONTableViewHelper: UITableViewDataSource {
         return cell
     }
     
-    private func recursizeConstraints(modelForView: ModelForViews?, _ parentView: UIView) {
+    private func recursizeConstraints(modelForView: ModelForViews?, _ dict: [Int: UIView]?) {
         guard let modelForView = modelForView, let tag = modelForView.tag else { return }
         modelForView.constraints?.forEach({ (constraint) in
-            if let view = parentView.viewWithTag(tag), let secondTag = constraint.toView,
-                let secondView = parentView.viewWithTag(secondTag), let fromAttribute = constraint.fromDimension,
+            if let view = dict?[tag], let secondTag = constraint.toView,
+                let secondView = dict?[secondTag], let fromAttribute = constraint.fromDimension,
                 let toAttribute = constraint.toDimension, let relatedBy = constraint.relatedBy,
                 let multiplier = constraint.multiplier, let constant = constraint.constant {
                 // Attribute: 1 - left, 2 - right, 3 - top, 4 - bottom
                 // Relation: -1 = lessThanOrEqual, 0 = equal, 1 = greaterThanOrEqualTo
                 NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: secondView, attribute: NSLayoutConstraint.Attribute(rawValue: toAttribute)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
-            } else if let view = parentView.viewWithTag(tag), let fromAttribute = constraint.fromDimension, let relatedBy = constraint.relatedBy, let multiplier = constraint.multiplier, let constant = constraint.constant {
+            } else if let view = dict?[tag], let fromAttribute = constraint.fromDimension, let relatedBy = constraint.relatedBy, let multiplier = constraint.multiplier, let constant = constraint.constant {
                 NSLayoutConstraint(item: view, attribute: NSLayoutConstraint.Attribute(rawValue: fromAttribute)!, relatedBy: NSLayoutConstraint.Relation(rawValue: relatedBy)!, toItem: nil, attribute: NSLayoutConstraint.Attribute(rawValue: 0)!, multiplier: CGFloat(multiplier), constant: CGFloat(constant)).isActive = true
             }
         })
         modelForView.subViews?.forEach({
-            self.recursizeConstraints(modelForView: $0, parentView)
+            self.recursizeConstraints(modelForView: $0, dict)
         })
     }
     
-    private func recursiveInitializeView(modelForView: ModelForViews?) -> UIView? {
-        guard let modelForView = modelForView else { return nil }
+    private func recursiveInitializeView(modelForView: ModelForViews?) -> (view: UIView?, dict: [Int: UIView]?) {
+        guard let modelForView = modelForView else { return (nil, nil) }
         let viewFromModel: AnyObject.Type  = NSClassFromString(modelForView.viewType!)!
         let uiViewType = viewFromModel as! UIView.Type
         let view = uiViewType.init()
@@ -81,8 +82,10 @@ extension JSONTableViewHelper: UITableViewDataSource {
 //        if let viewName = modelForView.viewName {
 //            self.viewsDictionary[viewName] = view
 //        }
+        var dict: [Int: UIView] = [:]
         if let tag = modelForView.tag {
             view.tag = tag
+            dict[tag] = view
         }
         view.translatesAutoresizingMaskIntoConstraints = false
         modelForView.propertyList?.forEach({
@@ -90,11 +93,17 @@ extension JSONTableViewHelper: UITableViewDataSource {
         })
         
         modelForView.subViews?.forEach({
-            if let childView = self.recursiveInitializeView(modelForView: $0) {
+            let childRecursiveResult = self.recursiveInitializeView(modelForView: $0)
+            if let childView = childRecursiveResult.view {
                 view.addSubview(childView)
             }
+            if let childDict = childRecursiveResult.dict {
+                childDict.keys.forEach({
+                    dict[$0] = childDict[$0]
+                })
+            }
         })
-        return view
+        return (view: view, dict: dict)
     }
     
     func setProperty(object: UIView, name: String, propertyList: PropertyList) {
