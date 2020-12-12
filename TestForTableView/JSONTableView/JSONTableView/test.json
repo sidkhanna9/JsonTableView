@@ -121,10 +121,12 @@
                                         "toDimension": 2
                                     },
                                     {
-                                        "constant": 300,
+                                        "toView": 4,
+                                        "constant": 0,
                                         "multiplier": 1,
                                         "relatedBy": 0,
-                                        "fromDimension": 8
+                                        "fromDimension": 8,
+                                        "toDimension": 7
                                     }
                                 ],
                                 "propertyList": {
