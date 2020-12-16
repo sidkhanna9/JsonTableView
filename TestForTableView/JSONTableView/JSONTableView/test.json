@@ -159,6 +159,10 @@
                             "layer.borderWidth": {
                                 "type": "CGFloat",
                                 "value": ["2.0"]
+                            },
+                            "tapGesture": {
+                                "type": "TapGesture",
+                                "value": ["blibli://home"]
                             }
                         }
                     }

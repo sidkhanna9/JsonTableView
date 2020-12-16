@@ -26,4 +26,5 @@ enum PropertyType: String, CaseIterable {
     case contentVerticalHuggingProperty = "ContentVerticalHuggingProperty"
     case contentHorizontalCompressionResistance = "ContentHorizontalCompressionResistance"
     case contentVerticalCompressionResistance = "ContentVerticalCompressionResistance"
+    case tapGesture = "TapGesture"
 }

@@ -12,6 +12,7 @@
 		1F96B7A1246EC1980020DE0C /* JSONTableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96B7A0246EC1980020DE0C /* JSONTableViewHelper.swift */; };
 		1F96B7A3246EC2500020DE0C /* ModelForViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96B7A2246EC2500020DE0C /* ModelForViews.swift */; };
 		1F96B7A5246EC87F0020DE0C /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96B7A4246EC87F0020DE0C /* TableViewModel.swift */; };
+		608C9AF22587644100D4FD60 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608C9AF12587644100D4FD60 /* UIViewExtensions.swift */; };
 		60FB4A1025822F68000D7032 /* PropertyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB4A0F25822F68000D7032 /* PropertyType.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 		1F96B7A0246EC1980020DE0C /* JSONTableViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTableViewHelper.swift; sourceTree = "<group>"; };
 		1F96B7A2246EC2500020DE0C /* ModelForViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelForViews.swift; sourceTree = "<group>"; };
 		1F96B7A4246EC87F0020DE0C /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		608C9AF12587644100D4FD60 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		60FB4A0F25822F68000D7032 /* PropertyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +58,7 @@
 		1F96B762246EBFDF0020DE0C /* JSONTableView */ = {
 			isa = PBXGroup;
 			children = (
+				608C9AF02587641B00D4FD60 /* Extensions */,
 				60FB4A0E25822F49000D7032 /* Models */,
 				1F96B763246EBFDF0020DE0C /* JSONTableView.h */,
 				1F96B764246EBFDF0020DE0C /* Info.plist */,
@@ -65,6 +68,14 @@
 				1F7AC6CA248BB73100870288 /* test.json */,
 			);
 			path = JSONTableView;
+			sourceTree = "<group>";
+		};
+		608C9AF02587641B00D4FD60 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				608C9AF12587644100D4FD60 /* UIViewExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		60FB4A0E25822F49000D7032 /* Models */ = {
@@ -157,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60FB4A1025822F68000D7032 /* PropertyType.swift in Sources */,
+				608C9AF22587644100D4FD60 /* UIViewExtensions.swift in Sources */,
 				1F96B7A5246EC87F0020DE0C /* TableViewModel.swift in Sources */,
 				1F96B7A3246EC2500020DE0C /* ModelForViews.swift in Sources */,
 				1F96B7A1246EC1980020DE0C /* JSONTableViewHelper.swift in Sources */,

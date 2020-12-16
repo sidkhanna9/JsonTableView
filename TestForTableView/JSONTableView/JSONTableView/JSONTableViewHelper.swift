@@ -166,6 +166,12 @@ extension JSONTableViewHelper: UITableViewDataSource {
             return
         case .string:
             value = values[0]
+        case .tapGesture:
+            object.addTapGestureRecognizer {
+                let appUrl = URL(string: values[0])
+                UIApplication.shared.open(appUrl!)
+            }
+            return
         }
         object.setValue(value, forKeyPath: name)
     }
