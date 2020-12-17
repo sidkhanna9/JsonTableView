@@ -9,7 +9,61 @@
                     "view": {
                         "tag": 1,
                         "viewType": "UIView",
-                        "subViews":[],
+                        "subViews":[
+                            {
+                                "tag":11,
+                                "viewType": "UILabel",
+                                "subViews": [],
+                                "constraints":[
+                                    {
+                                        "toView": 1,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 4,
+                                        "toDimension": 4
+                                    },
+                                    {
+                                        "toView": 1,
+                                        "constant": 16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 1,
+                                        "toDimension": 1
+                                    },
+                                    {
+                                        "toView": 1,
+                                        "constant": -16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 2,
+                                        "toDimension": 2
+                                    },
+                                    {
+                                        "toView": 1,
+                                        "constant": 16,
+                                        "multiplier": 1,
+                                        "relatedBy": 0,
+                                        "fromDimension": 3,
+                                        "toDimension": 3
+                                    }
+                                ],
+                                "propertyList": {
+                                    "textColor": {
+                                        "type": "UIColor",
+                                        "value":["255.0", "255.0", "255.0", "1.0"]
+                                    },
+                                    "text": {
+                                        "type": "String",
+                                        "value": ["Hey Bro there!"]
+                                    },
+                                    "backgroundColor": {
+                                        "type": "UIColor",
+                                        "value":["2.0", "7.0", "135.0", "0.5"]
+                                    }
+                                }
+                            }
+                        ],
                         "constraints":[
                         ],
                         "propertyList": {
