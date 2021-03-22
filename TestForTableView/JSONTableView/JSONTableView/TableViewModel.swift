@@ -11,12 +11,12 @@ import UIKit
 class TableViewModel: Codable {
     var tableViewId: String?
     var sections: [SectionModel]?
+    var contentInset: Constraint?
 }
 
 class SectionModel: Codable {
     var sectionName: String?
     var rows: [RowsModel]?
-    
 }
 
 class RowsModel: Codable {

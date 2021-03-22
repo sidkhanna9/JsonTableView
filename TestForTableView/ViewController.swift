@@ -19,9 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.jsonTableView.delegate = helper
         self.jsonTableView.dataSource = helper
-        
-        jsonTableView.register(UITableViewCell.self, forCellReuseIdentifier: "jsonView")
-        // Do any additional setup after loading the view.
+        helper.viewDidLoad(tableView: jsonTableView)
     }
 
 

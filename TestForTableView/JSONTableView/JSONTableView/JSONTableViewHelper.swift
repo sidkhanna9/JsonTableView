@@ -21,6 +21,11 @@ public class JSONTableViewHelper: NSObject {
             self.jsonTableView = jsonResult
         }
     }
+    
+    public func viewDidLoad(tableView: UITableView) {
+        jsonTableView?.sections?.forEach({$0.rows?.forEach({tableView.register(UITableViewCell.self, forCellReuseIdentifier: $0.rowId ?? "") })})
+    }
+    
 }
 
 extension JSONTableViewHelper: UITableViewDelegate {
@@ -38,11 +43,11 @@ extension JSONTableViewHelper: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let row = self.jsonTableView?.sections?[indexPath.section].rows?[indexPath.row], let cell = tableView.dequeueReusableCell(withIdentifier: "jsonView") else {
+        guard let row = self.jsonTableView?.sections?[indexPath.section].rows?[indexPath.row], let rowId = row.rowId, let cell = tableView.dequeueReusableCell(withIdentifier: rowId) else {
             return UITableViewCell()
         }
-        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
-        let rowModelInitializer = self.recursiveInitializeView(modelForView: row.view)
+//        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
+        let rowModelInitializer = self.recursiveInitializeView(tableViewCell: cell, modelForView: row.view)
         if let view = rowModelInitializer.view {
             cell.contentView.addSubview(view)
             self.recursizeConstraints(modelForView: row.view, rowModelInitializer.dict)
@@ -73,27 +78,26 @@ extension JSONTableViewHelper: UITableViewDataSource {
         })
     }
     
-    private func recursiveInitializeView(modelForView: ModelForViews?) -> (view: UIView?, dict: [Int: UIView]?) {
-        guard let modelForView = modelForView else { return (nil, nil) }
-        let viewFromModel: AnyObject.Type  = NSClassFromString(modelForView.viewType!)!
-        let uiViewType = viewFromModel as! UIView.Type
-        let view = uiViewType.init()
-        
-//        if let viewName = modelForView.viewName {
-//            self.viewsDictionary[viewName] = view
-//        }
-        var dict: [Int: UIView] = [:]
-        if let tag = modelForView.tag {
+    private func recursiveInitializeView(tableViewCell: UITableViewCell, modelForView: ModelForViews?) -> (view: UIView?, dict: [Int: UIView]?) {
+        guard let modelForView = modelForView, let tag = modelForView.tag else { return (nil, nil) }
+        var view: UIView = UIView()
+        if let customView = tableViewCell.viewWithTag(tag) {
+            view = customView
+        } else if let viewType = modelForView.viewType, let viewFromModel: AnyObject.Type = NSClassFromString(viewType), let uiViewType = viewFromModel as? UIView.Type {
+            view = uiViewType.init()
             view.tag = tag
-            dict[tag] = view
         }
+        
+        var dict: [Int: UIView] = [:]
+        dict[tag] = view
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         modelForView.propertyList?.forEach({
             self.setProperty(object: view, name: $0.key, propertyList: $0.value)
         })
         
         modelForView.subViews?.forEach({
-            let childRecursiveResult = self.recursiveInitializeView(modelForView: $0)
+            let childRecursiveResult = self.recursiveInitializeView(tableViewCell: tableViewCell, modelForView: $0)
             if let childView = childRecursiveResult.view {
                 view.addSubview(childView)
             }
