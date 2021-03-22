@@ -11,7 +11,6 @@ import UIKit
 public class JSONTableViewHelper: NSObject {
     
     var jsonTableView: TableViewModel?
-//    var viewsDictionary: [String: UIView] = [:]
     
     public override init() {
         if let path = Bundle.init(identifier: "com.test.JSONTableView")?.path(forResource: "test", ofType: "json") ,
@@ -46,9 +45,12 @@ extension JSONTableViewHelper: UITableViewDataSource {
         guard let row = self.jsonTableView?.sections?[indexPath.section].rows?[indexPath.row], let rowId = row.rowId, let cell = tableView.dequeueReusableCell(withIdentifier: rowId) else {
             return UITableViewCell()
         }
-//        cell.contentView.subviews.forEach({ $0.removeFromSuperview() })
         let rowModelInitializer = self.recursiveInitializeView(tableViewCell: cell, modelForView: row.view)
         if let view = rowModelInitializer.view {
+            let subViews = view.subviewsRecursive()
+            row.removeViewsWithTag?.forEach({ (tag) in
+                subViews.first{$0.tag == tag}?.removeFromSuperview()
+            })
             cell.contentView.addSubview(view)
             self.recursizeConstraints(modelForView: row.view, rowModelInitializer.dict)
             cell.contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

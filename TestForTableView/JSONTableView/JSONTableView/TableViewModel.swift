@@ -22,4 +22,5 @@ class SectionModel: Codable {
 class RowsModel: Codable {
     var view: ModelForViews?
     var rowId: String?
+    var removeViewsWithTag: [Int]?
 }
